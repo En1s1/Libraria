@@ -65,7 +65,7 @@ export default function HomePage() {
             <span className="mt-4 block font-semibold text-red-700">– Arlind M.</span>
           </div>
           <div className="bg-white p-6 rounded shadow">
-            <p className="italic">"Shita librat që nuk i përdorja më për disa ditë. Super sistem!"</p>
+            <p className="italic">"Kjo faqe ishte e nevojshme, pasi porositë përmes Instagramit ishin shumë më të vështira."</p>
             <span className="mt-4 block font-semibold text-red-700">– Elira B.</span>
           </div>
         </div>
