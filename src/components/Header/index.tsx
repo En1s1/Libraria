@@ -20,7 +20,14 @@ export function Header() {
       name: "Librat",
       pathName: "/librat",
     },
-    
+    {
+      name: "About",
+      pathName: "/about",
+    },
+    {
+      name: "Contact",
+      pathName: "/contact",
+    },
   ];
 
   return (
