@@ -3,7 +3,7 @@ import cs from "classnames";
 import Button from "../shared/button";
 import { useRouter } from "next/router";
 import Logo from "@/assets/icons/logo.svg";
-
+import CartIcon from "../../pages/components/CartIcon";
 
 export function Header() {
   const router = useRouter();
@@ -43,6 +43,10 @@ export function Header() {
               {item.name}
             </Link>
           ))}
+          <header className="flex justify-between items-center px-4 py-2 shadow">
+            <h1 className="text-xl font-bold"></h1>
+            <CartIcon />
+         </header>
           </div>
           </div>
           </div>
