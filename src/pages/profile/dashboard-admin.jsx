@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function DashboardAdmin() {
   const { data: session } = useSession();
@@ -50,6 +51,12 @@ export default function DashboardAdmin() {
           <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
         </label>
       </div>
+      <button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className="mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition"
+>
+  🔓 Dil (Logout)
+      </button>
     </div>
   </div>
 );

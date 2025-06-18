@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 
 export default function DashboardUser() {
   const { data: session } = useSession();
@@ -70,6 +71,13 @@ export default function DashboardUser() {
           Këtu do të shfaqen komentet e tua mbi libra.
         </p>
       </div>
+      <button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className="w-full bg-blue-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 max-w-[30%] rounded transition"
+>
+  🔓 Dil (Logout)
+</button>
+
     </div>
   </div>
 );
