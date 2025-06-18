@@ -80,9 +80,9 @@ export default function HomePage() {
         transition= {{ duration: 1}}
         >
           <h2 className="text-4xl font-bold mb-6">Kontaktoni me ne</h2>
-          <p className="mb-1">Email: kontact@ubt.uni.net</p>
+          <p className="mb-1">Email: Librariabuzuku@gmail.com</p>
           <p className="mb-1">Number: +333 33 333 333</p>
-          <p className="mb-6">Adressa : Podujev, Kosove</p>
+          <p className="mb-6">Adressa : Prishtine, Kosove</p>
           <br />
          
         </motion.section>
