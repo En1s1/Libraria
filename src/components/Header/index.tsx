@@ -44,7 +44,7 @@ export function Header() {
             </Link>
           ))}
           <header className="flex justify-between items-center px-4 py-2 shadow">
-            <h1 className="text-xl font-bold"></h1>
+            <h1 className="text-xl font-Italic">Shporta</h1>
             <CartIcon />
          </header>
           </div>

@@ -71,6 +71,13 @@ export default function ShtoLiberPage() {
           className="border px-4 py-2 rounded"
           required
         />
+          {image && (
+          <img
+          src={image}
+          alt="Foto e librit"
+          className="w-32 h-48 object-cover rounded border mt-2"
+          />
+          )}
         <textarea
           placeholder="Përshkrimi (opsional)"
           value={description}

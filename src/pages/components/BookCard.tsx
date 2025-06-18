@@ -26,11 +26,12 @@ export default function BookCard({ book, isAdmin }: Props) {
       <img
         src={book.image}
         alt={book.title}
-        className="w-full h-48 object-cover rounded mb-2"
+        className="w-full h-118 object-cover rounded mb-2"
       />
-      <h2 className="text-lg font-semibold">{book.title}</h2>
-      <p className="text-gray-600 mb-2">{book.price} €</p>
-
+      <div className="flex flex-col justify-end h-full">
+  <h2 className="text-lg font-semibold">{book.title}</h2>
+  <p className="text-gray-600 mb-2">{book.price} €</p>
+</div>
       {isAdmin ? (
         <div className="flex gap-2 mt-auto">
           <a
