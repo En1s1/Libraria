@@ -32,6 +32,30 @@ export default function ShportaPage() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  const handleCheckout = async () => {
+    try {
+      const bookIds = cartItems.map((book) => book._id);
+      const total = cartItems.reduce((sum, book) => sum + book.price, 0);
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ books: bookIds, total }),
+      });
+
+      if (res.ok) {
+        alert("Porosia u krye me sukses!");
+        localStorage.removeItem("cart");
+        setCartItems([]);
+        router.push("/profile/dashboard-user");
+      } else {
+        alert("Gabim gjatë porosisë!");
+      }
+    } catch (err) {
+      alert("Gabim në rrjet ose server!");
+    }
+  };
+
   const totalPrice = cartItems.reduce((sum, book) => sum + book.price, 0);
 
   return (
@@ -67,6 +91,15 @@ export default function ShportaPage() {
           ))}
           <div className="text-right text-lg font-bold">
             Totali: {totalPrice.toFixed(2)} €
+          </div>
+         
+          <div className="text-right mt-4">
+            <button
+              onClick={handleCheckout}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            >
+              Bli Tani
+            </button>
           </div>
         </div>
       )}

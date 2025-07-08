@@ -6,12 +6,27 @@ import { signOut } from "next-auth/react";
 export default function DashboardAdmin() {
   const { data: session } = useSession();
   const [profileImage, setProfileImage] = useState("/user-profile.jpg");
-
+  const [orders, setOrders] = useState([]); 
+  
   useEffect(() => {
     const storedImage = localStorage.getItem("adminProfileImage");
     if (storedImage) {
       setProfileImage(storedImage);
     }
+  }, []);
+  
+   useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await fetch("/api/orders");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setOrders(data);
+      } else {
+        console.error("❌ API nuk ktheu array për orders:", data);
+        setOrders([]);
+      }
+    };
+    fetchOrders();
   }, []);
 
   const handleImageChange = (e) => {
@@ -51,6 +66,17 @@ export default function DashboardAdmin() {
           <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
         </label>
       </div>
+       <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Të gjitha Porositë</h1>
+      {orders.map((order) => (
+        <div key={order._id} className="border p-4 rounded mb-2">
+          <p><strong>Klienti:</strong> {order.userId.email}</p>
+          <p><strong>Totali:</strong> €{order.total}</p>
+          <p><strong>Librat:</strong> {order.books.map(b => b.title).join(", ")}</p>
+          <p><strong>Data:</strong> {new Date(order.createdAt).toLocaleString()}</p>
+        </div>
+      ))}
+    </div>
       <button
       onClick={() => signOut({ callbackUrl: "/" })}
       className="mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition"

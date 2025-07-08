@@ -1,4 +1,4 @@
-// 📁 pages/profile/dashboard-user.jsx
+//  pages/profile/dashboard-user.jsx
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { signOut } from "next-auth/react";
 export default function DashboardUser() {
   const { data: session } = useSession();
   const [profileImage, setProfileImage] = useState("/user-profile.jpg");
+  const [orders, setOrders] = useState([]); // 🟢 SHTUAR këtu
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -15,6 +16,20 @@ export default function DashboardUser() {
       if (data.profileImage) setProfileImage(data.profileImage);
     };
     fetchImage();
+  }, []);
+
+   useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await fetch("/api/orders");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setOrders(data);
+      } else {
+        console.error("❌ API nuk ktheu array për orders:", data);
+        setOrders([]);
+      }
+    };
+    fetchOrders();
   }, []);
 
   const handleImageChange = async (e) => {
@@ -71,6 +86,21 @@ export default function DashboardUser() {
           Këtu do të shfaqen komentet e tua mbi libra.
         </p>
       </div>
+         {/* Card i porosive */}
+        <div className="bg-white rounded-2xl shadow-md p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">🛒 Porositë e Mia</h2>
+          {orders.length === 0 ? (
+            <p className="text-sm text-gray-500">Nuk ka porosi të regjistruara.</p>
+          ) : (
+            orders.map((order) => (
+              <div key={order._id} className="border p-4 rounded mb-2">
+                <p><strong>Totali:</strong> €{order.total}</p>
+                <p><strong>Libra:</strong> {order.books?.map(b => b.title).join(", ")}</p>
+                <p><strong>Data:</strong> {new Date(order.createdAt).toLocaleString()}</p>
+              </div>
+            ))
+          )}
+        </div>
       <button
       onClick={() => signOut({ callbackUrl: "/" })}
       className="w-full bg-blue-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 max-w-[30%] rounded transition"

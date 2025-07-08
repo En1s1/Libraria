@@ -12,14 +12,19 @@ interface Props {
   book: Book;
   isAdmin?: boolean;
 }
-
 export default function BookCard({ book, isAdmin }: Props) {
-  const addToCart = () => {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.push(book);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Libri u shtua në shportë!");
-  };
+const addToCart = () => {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.push({
+    _id: book._id,
+    title: book.title,
+    price: book.price,
+    image: book.image,
+  }); // shtojmë edhe price dhe image
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Libri u shtua në shportë!");
+};
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 flex flex-col">
@@ -29,9 +34,10 @@ export default function BookCard({ book, isAdmin }: Props) {
         className="w-full h-118 object-cover rounded mb-2"
       />
       <div className="flex flex-col justify-end h-full">
-  <h2 className="text-lg font-semibold">{book.title}</h2>
-  <p className="text-gray-600 mb-2">{book.price} €</p>
-</div>
+      <h2 className="text-lg font-semibold">{book.title}</h2>
+      <p className="text-gray-600 mb-2">{book.price} €</p>
+      </div>
+
       {isAdmin ? (
         <div className="flex gap-2 mt-auto">
           <a

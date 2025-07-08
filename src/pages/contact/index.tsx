@@ -23,19 +23,7 @@ export default function Contact() {
   return (
     <div className="pt-14 bg-gray-50 min-h-screen flex flex-col items-center">
       
-        {/* Introduction Section */}
-        <motion.section
-        className="w-full py-24 bg-pink-700 text-white text-center shadow-lg"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
->
-  <h1 className="text-5xl font-extrabold mb-4 tracking-wide">Na Kontaktoni</h1>
-  <p className="text-xl max-w-3xl mx-auto lading-relaxed">
-    Jemi të gatshëm te ju ndihmojmë! Plotësoni formularin më poshtë për 
-    të na kontaktuar.
-  </p>
-</motion.section>
+       
 {/* Contact Form Section */}
 <motion.section
   className="max-w-4xl w-full py-20 px-6"
@@ -73,17 +61,18 @@ export default function Contact() {
             required
             />
         </div>
-        <div>
-            <label className="block text-gray-700">Mesazhi</label>
-            <input 
-            name="email"
-            value={formData.message}
-            onChange={handleChange}
-            className="w-full mt-2 p-3 border rounded-xl"
-            placeholder="Shkruani mesazhin tuaj"
-            required
-            />
-        </div>
+       <div>
+      <label className="block text-gray-700">Mesazhi</label>
+        <textarea
+        name="message"
+        value={formData.message}
+        onChange={handleChange}
+        className="w-full mt-2 p-3 border rounded-xl h-30 resize-none"
+        placeholder="Shkruani mesazhin tuaj"
+       required
+  ></textarea>
+</div>
+
         <div className="text-center">
             <motion.button
             whileHover={{ scale: 1.05 }}
@@ -93,6 +82,7 @@ export default function Contact() {
                 >
                 Dërgo Mesazhin
   </motion.button>
+
 </div>
     </form>
   </div>
