@@ -1,5 +1,5 @@
-import dbConnect from '../../../lib/mongodb';
-import Comment from '../../../models/Comment';
+import dbConnect from '../../../lib/mongoose';
+import Comment from '../../../../src/api/models/Comment';
 
 export default async function handler(req, res) {
   await dbConnect();
