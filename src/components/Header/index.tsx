@@ -37,7 +37,10 @@ export function Header() {
         <picture>
           <img className="h-10  ml-12" src={Logo.src} alt="Logo" />
           </picture>
+          
           </Link>
+          <h1 className="text-xl font-bold font-Italic text-red-500 bg-pink-100 flex-col ml-1 shadow-md">Libraria Buzuku!</h1>
+
         <div className="flex-1 flex gap-10 items-center justify-center">
           {items.map((item, index) => (
             <Link
