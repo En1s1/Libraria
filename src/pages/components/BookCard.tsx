@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pencil, Trash2, Heart, ShoppingCart } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Book {
   _id: string;
@@ -14,14 +15,21 @@ interface Props {
 }
 
 export default function BookCard({ book, isAdmin }: Props) {
+  const { data: session } = useSession();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showCommentOptions, setShowCommentOptions] = useState(false);
 
+  // Kontrollo nëse libri është i preferuar
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const found = favorites.some((fav: Book) => fav._id === book._id);
-    setIsFavorite(found);
-  }, [book._id]);
+    const checkFavorite = async () => {
+      if (!session) return;
+      const res = await fetch("/api/favorites/user");
+      const data = await res.json();
+      const found = data.find((fav: any) => fav.book === book._id);
+      setIsFavorite(!!found);
+    };
+    checkFavorite();
+  }, [book._id, session]);
 
   const addToCart = () => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -30,19 +38,29 @@ export default function BookCard({ book, isAdmin }: Props) {
     alert("Libri u shtua në shportë!");
   };
 
-  const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const exists = favorites.find((fav: Book) => fav._id === book._id);
-
-    let updatedFavorites;
-    if (exists) {
-      updatedFavorites = favorites.filter((fav: Book) => fav._id !== book._id);
-    } else {
-      updatedFavorites = [...favorites, book];
+  const toggleFavorite = async () => {
+    if (!session) {
+      alert("Ju lutem kyçuni për të shtuar në të preferuarat.");
+      return;
     }
 
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setIsFavorite(!exists);
+    if (isFavorite) {
+      // Hiqe nga favorites
+      await fetch("/api/favorites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookId: book._id }),
+      });
+    } else {
+      // Shtoje në favorites
+      await fetch("/api/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookId: book._id }),
+      });
+    }
+
+    setIsFavorite(!isFavorite);
   };
 
   const handleDelete = () => {
@@ -57,8 +75,8 @@ export default function BookCard({ book, isAdmin }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          bookId: book._id,
-          comment: type,
+          book: book._id,
+          content: type === "good" ? "Koment pozitiv" : "Koment negativ",
         }),
       });
 
@@ -103,7 +121,6 @@ export default function BookCard({ book, isAdmin }: Props) {
           </div>
         ) : (
           <div className="flex justify-between items-center mt-auto gap-2">
-            {/* Bli tani */}
             <button
               onClick={addToCart}
               className="p-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition"
@@ -128,13 +145,13 @@ export default function BookCard({ book, isAdmin }: Props) {
                     onClick={() => submitComment("good")}
                     className="bg-green-100 text-green-600 px-2 py-1 rounded hover:bg-green-200"
                   >
-                    👍 
+                    👍
                   </button>
                   <button
                     onClick={() => submitComment("notgood")}
                     className="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200"
                   >
-                    👎 
+                    👎
                   </button>
                 </div>
               )}

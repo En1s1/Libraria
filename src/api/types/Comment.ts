@@ -1,7 +1,9 @@
-export interface CommentType {
-  _id?: string;
-  user: string;        // ID i përdoruesit që la komentin
-  book: string;        // ID i librit për të cilin është komenti
-  content: string;     // Përmbajtja e komenti
-  createdAt?: Date;
+export interface Comment {
+  _id: string;
+  content: string;
+  createdAt: string;
+  book: {
+    _id: string;
+    title: string;
+  };
 }

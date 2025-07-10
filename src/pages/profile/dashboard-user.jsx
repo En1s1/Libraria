@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { getUserFavorites } from "../../api/services/favoriteService";
 
 export default function DashboardUser() {
   const { data: session } = useSession();
@@ -17,6 +18,23 @@ export default function DashboardUser() {
     };
     fetchImage();
   }, []);
+  const [comments, setComments] = useState([]);
+
+ useEffect(() => {
+  const fetchComments = async () => {
+    const res = await fetch("/api/comments/user");
+    const data = await res.json();
+
+    // Nëse API kthen { comments: [...] }
+    if (Array.isArray(data.comments)) {
+      setComments(data.comments);
+    } else {
+      console.error("❌ Komentet nuk janë array:", data);
+      setComments([]);
+    }
+  };
+  fetchComments();
+}, []);
 
    useEffect(() => {
     const fetchOrders = async () => {
@@ -44,6 +62,16 @@ export default function DashboardUser() {
     });
   };
 
+  const [favorites, setFavorites] = useState([]);
+
+useEffect(() => {
+  const fetchFavorites = async () => {
+    const data = await getUserFavorites();
+    setFavorites(data);
+  };
+  fetchFavorites();
+}, []);
+
   return (
   <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
     <div className="max-w-3xl w-full space-y-6">
@@ -70,22 +98,39 @@ export default function DashboardUser() {
           <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
         </label>
       </div>
-
-      {/* Card i librave të preferuar */}
+      {/* Librat e preferuar */}
       <div className="bg-white rounded-2xl shadow-md p-6">
-        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">📚 Librat e Preferuar</h2>
-        <p className="text-gray-600 text-sm mt-2">
-          Këtu do të shfaqen librat që i ke preferuar (pasi të lidhen me backend-in).
-        </p>
-      </div>
+  <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">📚 Librat e Preferuar</h2>
+  {favorites.length === 0 ? (
+    <p className="text-gray-600 text-sm mt-2">Nuk ke asnjë libër të preferuar.</p>
+  ) : (
+    <ul className="mt-2">
+      {favorites.map(fav => (
+        <li key={fav._id} className="text-gray-700">
+          {fav.book.title}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
 
-      {/* Card i komenteve */}
-      <div className="bg-white rounded-2xl shadow-md p-6">
-        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">💬 Komentet e Mia</h2>
-        <p className="text-gray-600 text-sm mt-2">
-          Këtu do të shfaqen komentet e tua mbi libra.
-        </p>
-      </div>
+    {/* Komentet e mia */}
+<div className="bg-white rounded-2xl shadow-md p-6">
+  <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">💬 Komentet e Mia</h2>
+  {comments.length === 0 ? (
+    <p className="text-gray-600 text-sm mt-2">Nuk keni lënë komente ende.</p>
+  ) : (
+    <ul className="mt-2 text-sm text-gray-700 space-y-2">
+      {comments.map((c) => (
+        <li key={c._id} className="border p-2 rounded">
+          <strong>{c.book.title}:</strong> {c.content}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+
          {/* Card i porosive */}
         <div className="bg-white rounded-2xl shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">🛒 Porositë e Mia</h2>

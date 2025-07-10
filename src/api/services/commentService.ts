@@ -1,11 +1,12 @@
-import Comment from '../models/Comment';
-import { CommentType } from '../types/Comment'; // sigurohu që e ke këtë
+// 📁 src/services/commentService.ts
+import dbConnect from "@/lib/mongoose";
+import Comment from "@/api/models/Comment";
 
-export const getAllComments = () =>
-  Comment.find().populate('user').populate('book');
+export async function getCommentsByUser(userId: string) {
+  await dbConnect();
+  const comments = await Comment.find({ user: userId })
+    .populate("book", "title")  // vetem titulli i librit
+    .sort({ createdAt: -1 });   // komentet më të reja të parat
 
-export const createComment = (data: CommentType) =>
-  Comment.create(data);
-
-export const deleteComment = (id: string) =>
-  Comment.findByIdAndDelete(id);
+  return comments;
+}
