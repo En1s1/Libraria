@@ -4,15 +4,17 @@ import Book from "../../../api/models/Book";
 export default async function handler(req, res) {
   await dbConnect();
 
-  if (req.method === 'GET') {
-    const books = await Book.find();
+  if (req.method === "GET") {
+    const { q } = req.query;
+
+    const filter = q
+      ? { title: { $regex: q, $options: "i" } } // 👈 full-text search
+      : {};
+
+    const books = await Book.find(filter).sort({ createdAt: -1 });
+
     return res.status(200).json(books);
   }
 
-  if (req.method === 'POST') {
-    const newBook = await Book.create(req.body);
-    return res.status(201).json(newBook);
-  }
-
-  res.status(405).json({ error: 'Method not allowed' });
+  res.status(405).json({ message: "Method not allowed" });
 }

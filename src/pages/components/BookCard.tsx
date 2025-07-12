@@ -97,7 +97,7 @@ export default function BookCard({ book, isAdmin }: Props) {
       <img
         src={book.image}
         alt={book.title}
-        className="w-full h-118 object-cover rounded mb-3"
+        className="w-full h-113 object-cover rounded mb-3"
       />
       <div className="flex flex-col justify-between flex-1">
         <h2 className="text-lg font-bold text-gray-800">{book.title}</h2>
