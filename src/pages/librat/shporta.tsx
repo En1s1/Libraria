@@ -9,6 +9,7 @@ interface Book {
   title: string;
   image: string;
   price: number;
+  description: string;
 }
 
 export default function ShportaPage() {
@@ -80,6 +81,7 @@ export default function ShportaPage() {
                   />
                   <div>
                     <h2 className="text-lg font-semibold">{book.title}</h2>
+                    <p className="text-xs text-gray-500">{book.description}</p>
                     <p className="text-sm text-gray-600">{book.price}€</p>
                   </div>
                 </div>

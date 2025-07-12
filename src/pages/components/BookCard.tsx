@@ -7,6 +7,7 @@ interface Book {
   title: string;
   image: string;
   price: number;
+  description: string;
 }
 
 interface Props {
@@ -100,6 +101,7 @@ export default function BookCard({ book, isAdmin }: Props) {
       />
       <div className="flex flex-col justify-between flex-1">
         <h2 className="text-lg font-bold text-gray-800">{book.title}</h2>
+        <p className="text-sm text-gray-600">{book.description}</p> {/* 👈 përshkrimi */}
         <p className="text-gray-500 mb-4">{book.price} €</p>
 
         {isAdmin ? (

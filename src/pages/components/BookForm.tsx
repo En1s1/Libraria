@@ -87,7 +87,7 @@ export default function BookForm({ initialData, onSubmit }: BookFormProps) {
           </div>
         )}
 
-        <textarea
+          <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Përshkrimi (opsional)"
