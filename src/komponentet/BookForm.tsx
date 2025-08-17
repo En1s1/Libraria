@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
+
 
 interface BookFormProps {
   initialData?: {
@@ -76,7 +78,7 @@ export default function BookForm({ initialData, onSubmit }: BookFormProps) {
         {image && (
           <div>
             <p className="text-sm text-gray-600">Preview i fotos:</p>
-            <img
+           <img
               src={image}
               alt="Foto e librit"
               className="w-32 h-48 object-cover rounded border mt-1"
@@ -104,3 +106,4 @@ export default function BookForm({ initialData, onSubmit }: BookFormProps) {
     </div>
   );
 }
+

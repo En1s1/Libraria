@@ -1,4 +1,4 @@
-// pages/librat/shto.tsx
+/* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";

@@ -105,9 +105,11 @@ useEffect(() => {
     <p className="text-gray-600 text-sm mt-2">Nuk ke asnjë libër të preferuar.</p>
   ) : (
     <ul className="mt-2">
-      {favorites.map(fav => (
-        <li key={fav._id} className="text-gray-700">
-          {fav.book.title}
+      {favorites
+  .filter(fav => fav.book)
+  .map(fav => (
+    <li key={fav._id} className="text-gray-700">
+      {fav.book.title}
         </li>
       ))}
     </ul>

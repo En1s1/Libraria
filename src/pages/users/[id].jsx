@@ -1,24 +1,34 @@
-import dbConnect from '../../../lib/mongodb';
-import User from '../../../models/User';
+import React from "react";
 
-export default async function handler(req, res) {
-  const { id } = req.query;
-  await dbConnect();
-
-  if (req.method === 'GET') {
-    const user = await User.findById(id);
-    return res.status(200).json(user);
+export default function UserPage({ user }) {
+  if (!user) {
+    return <div>Përdoruesi nuk u gjet.</div>;
   }
 
-  if (req.method === 'PUT') {
-    const updated = await User.findByIdAndUpdate(id, req.body, { new: true });
-    return res.status(200).json(updated);
-  }
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
+      <p>Roli: {user.role}</p>
+    </div>
+  );
+}
 
-  if (req.method === 'DELETE') {
-    await User.findByIdAndDelete(id);
-    return res.status(204).end();
-  }
+export async function getServerSideProps(context) {
+  const { id } = context.params;
 
-  res.status(405).json({ error: 'Method not allowed' });
+  const host = context.req.headers.host;
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+
+  try {
+    const res = await fetch(`${protocol}://${host}/api/users/${id}`);
+    const user = await res.json();
+
+    return {
+      props: { user },
+    };
+  } catch (error) {
+    console.error("Gabim në marrjen e përdoruesit:", error);
+    return { props: { user: null } };
+  }
 }

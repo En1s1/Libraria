@@ -7,7 +7,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const [profileImage, setProfileImage] = useState("/user-profile.jpg");
 
-  // 👉 Merr foton nga databaza kur përdoruesi është i kyçur
+  //  Merr foton nga databaza kur përdoruesi është i kyçur
   useEffect(() => {
     const fetchImage = async () => {
       const res = await fetch(`/api/users/getProfileImage`);
@@ -40,7 +40,7 @@ export default function ProfilePage() {
     });
   };
 
-  // 👉 Pas ngarkimit të sesionit, bëhet redirect sipas rolit
+  //  Pas ngarkimit të sesionit, bëhet redirect sipas rolit
   useEffect(() => {
     if (status === "authenticated" && session?.user?.role) {
       if (session.user.role === "admin") {

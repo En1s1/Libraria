@@ -1,19 +1,16 @@
- import clientPromise from "@/lib/mongoose";
-import { ObjectId } from "mongodb";
+import dbConnect from "@/lib/mongoose";
+import User from "@/api/models/User"; // ose ku e ke Modelin tënd
 
 export async function getAllUsers() {
-  const client = await clientPromise;
-  const db = client.db("bibliotekaOnlineDB");
-  const users = await db.collection("users").find({}).toArray();
-  return users;
+  await dbConnect();
+  return User.find();
 }
 
-export async function getUserById(id: string) {
-  const client = await clientPromise;
-  const db = client.db("bibliotekaOnlineDB");
-  const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
-  return user;
+export async function getUserByEmail(email: string) {
+  await dbConnect();
+  return User.findOne({ email });
 }
+
 
 export async function createUser(userData: {
   name: string;
@@ -21,27 +18,22 @@ export async function createUser(userData: {
   password: string;
   role: string;
 }) {
-  const client = await clientPromise;
-  const db = client.db("bibliotekaOnlineDB");
-  const result = await db.collection("users").insertOne(userData);
-  return result.insertedId;
+  await dbConnect();
+  const newUser = new User(userData);
+  await newUser.save();
+  return newUser._id;
 }
 
 export async function updateUser(id: string, updateData: any) {
-  const client = await clientPromise;
-  const db = client.db("bibliotekaOnlineDB");
-  const result = await db.collection("users").updateOne(
-    { _id: new ObjectId(id) },
-    { $set: updateData }
-  );
-  return result.modifiedCount > 0;
+  await dbConnect();
+  const updated = await User.findByIdAndUpdate(id, updateData, { new: true });
+  return !!updated;
 }
 
 export async function deleteUser(id: string) {
-  const client = await clientPromise;
-  const db = client.db("bibliotekaOnlineDB");
-  const result = await db.collection("users").deleteOne({ _id: new ObjectId(id) });
-  return result.deletedCount > 0;
+  await dbConnect();
+  const result = await User.findByIdAndDelete(id);
+  return !!result;
 }
 
- 
+export const getUser = getUserByEmail;

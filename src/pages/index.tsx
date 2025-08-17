@@ -61,11 +61,11 @@ export default function HomePage() {
         <h2 className="text-4xl font-bold mb-10 text-white-700">Çka thonë përdoruesit tanë</h2>
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 px-4">
           <div className="bg-white p-6 rounded shadow">
-            <p className="italic">"Platforma më e mirë për të gjetur libra në shqip. Shumë e lehtë për përdorim!"</p>
+            <p className="italic">Platforma më e mirë për të gjetur libra në shqip. Shumë e lehtë për përdorim!</p>
             <span className="mt-4 block font-semibold text-red-700">– Arlind M.</span>
           </div>
           <div className="bg-white p-6 rounded shadow">
-            <p className="italic">"Kjo faqe ishte e nevojshme, pasi porositë përmes Instagramit ishin shumë më të vështira."</p>
+            <p className="italic">Kjo faqe ishte e nevojshme, pasi porositë përmes Instagramit ishin shumë më të vështira.</p>
             <span className="mt-4 block font-semibold text-red-700">– Elira B.</span>
           </div>
         </div>

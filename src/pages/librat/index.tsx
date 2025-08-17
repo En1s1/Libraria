@@ -1,7 +1,8 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import BookCard from "../components/BookCard";
+import { BookCard } from "../../komponentet/BookCard";
+import Link from 'next/link';
 
 interface Book {
   _id: string;
@@ -67,12 +68,11 @@ export default function LibratPage() {
 
       {session?.user?.role === "admin" && (
         <div className="mb-4">
-          <a
-            href="/librat/shto"
-            className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-          >
-            ➕ Shto Liber
-          </a>
+          <Link href="/librat/shto" passHref>
+            <div className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded cursor-pointer">
+          ➕ Shto Liber
+        </div>
+      </Link>
         </div>
       )}
 

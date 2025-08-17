@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { Pencil, Trash2, Heart, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
+
 
 interface Book {
   _id: string;
@@ -15,7 +17,7 @@ interface Props {
   isAdmin?: boolean;
 }
 
-export default function BookCard({ book, isAdmin }: Props) {
+export  function BookCard({ book, isAdmin }: Props) {
   const { data: session } = useSession();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showCommentOptions, setShowCommentOptions] = useState(false);
@@ -30,6 +32,7 @@ export default function BookCard({ book, isAdmin }: Props) {
       setIsFavorite(!!found);
     };
     checkFavorite();
+
   }, [book._id, session]);
 
   const addToCart = () => {
@@ -94,11 +97,14 @@ export default function BookCard({ book, isAdmin }: Props) {
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col relative group transition-all duration-300 hover:shadow-xl">
-      <img
-        src={book.image}
-        alt={book.title}
+      
+
+        <img
+        src={book?.image || "/placeholder.jpg"}
+        alt={book?.title || "Pa titull"}
         className="w-full h-113 object-cover rounded mb-3"
-      />
+    />
+
       <div className="flex flex-col justify-between flex-1">
         <h2 className="text-lg font-bold text-gray-800">{book.title}</h2>
         <p className="text-sm text-gray-600">{book.description}</p> {/* 👈 përshkrimi */}
@@ -181,3 +187,4 @@ export default function BookCard({ book, isAdmin }: Props) {
     </div>
   );
 }
+

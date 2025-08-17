@@ -3,7 +3,7 @@ import cs from "classnames";
 import Button from "../shared/button";
 import { useRouter } from "next/router";
 import Logo from "@/assets/icons/logo.svg";
-import CartIcon from "../../pages/components/CartIcon";
+import CartIcon from "../../komponentet/CartIcon";
 
 export function Header() {
   const router = useRouter();

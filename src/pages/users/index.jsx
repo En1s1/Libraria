@@ -1,13 +1,38 @@
-import dbConnect from '../../../lib/mongodb';
-import User from '../../../models/User';
+import React from "react";
 
-export default async function handler(req, res) {
-  await dbConnect();
+export default function UsersPage({ users }) {
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Lista e Përdoruesve</h1>
+      {users.length === 0 ? (
+        <p>Nuk u gjetën përdorues.</p>
+      ) : (
+        <ul>
+          {users.map((user) => (
+            <li key={user._id}>
+              <strong>{user.name}</strong> - {user.email} ({user.role})
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
-  if (req.method === 'GET') {
-    const users = await User.find();
-    return res.status(200).json(users);
+export async function getServerSideProps(context) {
+  const host = context.req.headers.host;
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+
+  try {
+    const res = await fetch(`${protocol}://${host}/api/users`);
+    if (!res.ok) {
+      return { props: { users: [] } };
+    }
+    const users = await res.json();
+
+    return { props: { users } };
+  } catch (err) {
+    console.error("Gabim në marrjen e përdoruesve:", err);
+    return { props: { users: [] } };
   }
-
-  res.status(405).json({ error: 'Method not allowed' });
 }
