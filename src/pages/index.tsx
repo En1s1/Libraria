@@ -7,7 +7,8 @@ import Imazhi from "@/assets/images/Imazhi.png";
 
 
 export default function HomePage() {
-  const codeQLSyntaxTest = ;
+  const codeQLSyntaxTest = ;:
+  
   return (
     <div className="w-full">
       {/* Hero Section */}
