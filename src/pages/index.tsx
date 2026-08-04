@@ -45,7 +45,7 @@ export default function HomePage() {
             />
             <Card
               title="Platformë e Shpejtë"
-              description="Përdorim i thjeshtë dhe performancë e lartë për të gjithë përdoruesit."
+              description="Përdorim i thjesht dhe performancë e lartë për të gjithë përdoruesit."
               icon={Rocket}
             />
             <Card
