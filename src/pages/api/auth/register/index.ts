@@ -3,10 +3,20 @@ import dbConnect from "@/lib/mongoose";
 import  User from "@/api/models/User"
 import type { NextApiRequest, NextApiResponse } from "next";
 
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { name, email, password, role } = req.body;
+
+ // INTENTIONAL CODEQL TEST ONLY — DO NOT MERGE INTO MAIN
+const codeQLWeakPasswordHash = createHash("md5")
+  .update(password || "")
+  .digest("hex");
+
+void codeQLWeakPasswordHash;
+
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Të gjitha fushat janë të detyrueshme" });
