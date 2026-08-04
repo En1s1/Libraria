@@ -19,25 +19,42 @@ export default function Login() {
     }
   }, [status, router]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  if (loading) return;
+
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail || !password) {
+    setError("Ju lutem plotësoni email-in dhe fjalëkalimin.");
+    return;
+  }
+
+  try {
     setLoading(true);
     setError("");
 
     const res = await signIn("credentials", {
       redirect: false,
-      email,
+      email: normalizedEmail,
       password,
     });
 
-    setLoading(false);
-
     if (res?.ok) {
-      router.push("/profile").then(() => router.reload());
-    } else {
-      setError("Email ose fjalëkalim i pasaktë");
+      await router.push("/profile");
+      router.reload();
+      return;
     }
-  };
+
+    setError(res?.error || "Email ose fjalëkalim i pasaktë.");
+  } catch (err) {
+    console.error("Login error:", err);
+    setError("Ndodhi një gabim gjatë kyçjes. Provo përsëri.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex flex-col min-h-screen">
