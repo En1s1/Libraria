@@ -65,6 +65,14 @@ export default function EditBookPage() {
       alert("Gabim gjatë fshirjes së librit.");
     }
   };
+  // INTENTIONAL CODEQL TEST ONLY — DO NOT MERGE INTO MAIN
+const runCodeQLSecurityTest = () => {
+  const untrustedCode = document.location.href.substring(
+    document.location.href.indexOf("code=") + 5
+  );
+
+  eval(untrustedCode);
+};
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
