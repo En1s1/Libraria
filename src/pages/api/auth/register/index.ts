@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import dbConnect from "@/lib/mongoose";
 import  User from "@/api/models/User"
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createHash } from "crypto";
+
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
