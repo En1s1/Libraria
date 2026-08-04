@@ -131,7 +131,7 @@ export  function BookCard({ book, isAdmin }: Props) {
           <div className="flex justify-between items-center mt-auto gap-2">
             <button
               onClick={addToCart}
-              className="p-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition"
+              className="p-2 rounded-full bg-blue-400 hover:bg-blue-700 text-white transition"
               title="Shto në shportë"
             >
               <ShoppingCart size={20} />
